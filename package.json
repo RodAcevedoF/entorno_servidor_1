@@ -1,0 +1,62 @@
+{
+  "name": "suenos-valenti",
+  "version": "1.0.0",
+  "description": "Cryogenics Solutions",
+  "main": "app.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/app.js",
+    "dev": "nodemon --watch src --ext ts --exec \"ts-node src/app.ts\"",
+    "lint": "node -r ts-node/register ./node_modules/eslint/bin/eslint.js . --ext .ts,.js",
+    "lint:fix": "node -r ts-node/register ./node_modules/eslint/bin/eslint.js . --ext .ts,.js --fix",
+    "test": "jest --config jest.config.ts --runInBand",
+    "prepare": "husky install",
+    "check": "npm run lint && tsc --noEmit"
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "node -r ts-node/register ./node_modules/eslint/bin/eslint.js --fix"
+    ]
+  },
+  "keywords": [
+    "wellness",
+    "sessions",
+    "spiritual"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.3",
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.7",
+    "@types/express": "^5.0.1",
+    "@types/express-session": "^1.18.1",
+    "@types/node": "^22.15.21",
+    "@types/supertest": "^6.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.50.0",
+    "@typescript-eslint/parser": "^8.50.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "husky": "^9.1.7",
+    "jest": "^30.2.0",
+    "jiti": "^2.6.1",
+    "lint-staged": "^16.2.7",
+    "nodemon": "^3.1.11",
+    "prettier": "^3.7.4",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "ejs": "^3.1.10",
+    "express": "^5.0.1",
+    "express-ejs-layouts": "^2.5.1",
+    "express-rate-limit": "^8.2.1",
+    "express-session": "^1.18.1",
+    "uuid": "^13.0.0"
+  }
+}

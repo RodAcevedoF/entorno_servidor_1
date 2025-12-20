@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title><%= title || "Valenti Dreams" %></title>
+		<link rel="stylesheet" href="/css/style.css" />
+	</head>
+	<body class="theme-<%= theme %>">
+		<div class="container">
+			<header>
+				<h1><a href="/">Valenti Dreams</a></h1>
+				<nav>
+					<a href="/">Home</a>
+					<a href="/sessions">Sessions</a>
+					<a href="/preferences">Preferences</a>
+					<% if (user) { %>
+					<a href="/profile">My Profile</a>
+					<a href="/cart">Cart (<%= cart.length %>)</a>
+					<% } else { %>
+					<a href="/login">Login</a>
+					<a href="/register">Register</a>
+					<% } %>
+				</nav>
+			</header>
+			<main><%- body %></main>
+			<footer>
+				<p>&copy; 2025 Valenti Dreams - Beyond consciousness</p>
+			</footer>
+		</div>
+	</body>
+</html>

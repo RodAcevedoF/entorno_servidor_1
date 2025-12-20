@@ -1,0 +1,52 @@
+<h2>Spiritual Cart</h2>
+
+<% if (cart.length === 0) { %>
+<div class="empty-cart">
+	<p>Your spiritual cart is empty.</p>
+	<a href="/sessions" class="button">Explore Sessions</a>
+</div>
+<% } else { %>
+<table class="cart-table">
+	<thead>
+		<tr>
+			<th>Session</th>
+			<th>Date</th>
+			<th>Quantity</th>
+			<th>Price</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% cart.forEach(function(item) { %>
+		<tr>
+			<td><%= item.sesion.titulo %></td>
+			<td><%= new Date(item.sesion.fecha).toLocaleDateString('en-US') %></td>
+			<td><%= item.cantidad %></td>
+			<td><%= item.sesion.precio * item.cantidad %>€</td>
+			<td>
+				<form action="/cart/delete" method="DELETE" style="margin:0">
+					<input type="hidden" name="sesionId" value="<%= item.sesion.id %>">
+					<button type="submit" class="button-small button-danger">Remove</button>
+				</form>
+			</td>
+		</tr>
+		<% }); %>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="4"><strong>Total</strong></td>
+			<td><strong><%= total %>€</strong></td>
+		</tr>
+	</tfoot>
+</table>
+
+<div class="cart-actions">
+	<form action="/bookings/confirm" method="POST">
+		<button type="submit" class="button button-success">Confirm Booking</button>
+	</form>
+	<form action="/cart/empty" method="DELETE">
+		<button type="submit" class="button button-danger">Empty Cart</button>
+	</form>
+	<a href="/sessions" class="button">Continue Exploring</a>
+</div>
+<% } %>

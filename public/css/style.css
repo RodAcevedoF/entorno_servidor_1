@@ -1,0 +1,522 @@
+/* ========== VARIABLES ========== */
+:root {
+  --primary: #7c3aed;
+  --primary-dark: #5b21b6;
+  --danger: #dc2626;
+  --success: #16a34a;
+}
+
+/* ========== TEMA CLARO ========== */
+.theme-light {
+  --bg: #f8f5ff;
+  --bg-card: #ffffff;
+  --text: #1f2937;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --header-bg: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+}
+
+/* ========== TEMA OSCURO ========== */
+.theme-dark {
+  --bg: #0f0a1a;
+  --bg-card: #1a1025;
+  --text: #f3f4f6;
+  --text-muted: #9ca3af;
+  --border: #374151;
+  --header-bg: linear-gradient(135deg, #4c1d95 0%, #7c3aed 100%);
+}
+
+/* ========== BASE ========== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ========== LAYOUT ========== */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  background: var(--header-bg);
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 0 0 20px 20px;
+}
+
+header h1 {
+  margin: 0 0 15px 0;
+  font-size: 1.8rem;
+}
+
+header h1 a {
+  color: white;
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: rgba(255, 255, 255, 0.9);
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.2s;
+}
+
+nav a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+}
+
+main {
+  /* Remove large fixed minimum height that creates excessive gap
+     and use modest top padding so short pages don't push content down. */
+  min-height: auto;
+  padding: 20px 0 40px;
+}
+
+footer {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+/* ========== CARDS ========== */
+.card,
+.profile-card,
+.session-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* ========== HOME ========== */
+.hero {
+  text-align: center;
+  padding: 40px 20px;
+  background: var(--bg-card);
+  border-radius: 16px;
+  margin: 0 30px 30px 30px;
+  border: 1px solid var(--border);
+}
+
+.hero h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+.tagline {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+}
+
+.intro,
+.services,
+.cta {
+  margin-bottom: 30px;
+}
+
+h3 {
+  color: var(--primary);
+  margin-bottom: 15px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card h4 {
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+/* ========== FORMS ========== */
+form {
+  max-width: 500px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='number'] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 1rem;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checkboxes label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+/* ========== BUTTONS ========== */
+button,
+.button {
+  display: inline-block;
+  padding: 12px 24px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+
+button:hover,
+.button:hover {
+  background: var(--primary-dark);
+  text-decoration: none;
+}
+
+.button-danger {
+  background: var(--danger);
+}
+
+.button-danger:hover {
+  background: #b91c1c;
+}
+
+.button-success {
+  background: var(--success);
+}
+
+.button-success:hover {
+  background: #15803d;
+}
+
+/* ========== MESSAGES ========== */
+.errors {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.errors ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.success {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.link-alt {
+  margin-top: 20px;
+  color: var(--text-muted);
+}
+
+/* ========== PERFIL ========== */
+.profile-card {
+  margin-bottom: 20px;
+}
+
+.profile-card dl {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 10px;
+}
+
+.profile-card dt {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.profile-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ========== PREFERENCIAS ========== */
+.theme-options {
+  display: flex;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.theme-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.theme-option:hover {
+  border-color: var(--primary);
+}
+
+.theme-option.active {
+  border-color: var(--primary);
+  background: rgba(124, 58, 237, 0.05);
+}
+
+.theme-option input {
+  display: none;
+}
+
+.theme-preview {
+  width: 60px;
+  height: 40px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+.theme-preview.theme-light {
+  background: #f8f5ff;
+}
+
+.theme-preview.theme-dark {
+  background: #0f0a1a;
+}
+
+.note {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 20px;
+}
+
+/* ========== SESSIONS ========== */
+.intro-sessions {
+  color: var(--text-muted);
+  margin-bottom: 25px;
+}
+
+.sessions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.session-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.session-card .description {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+}
+
+.session-card .details {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.session-card .price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 15px;
+}
+
+.login-note {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ========== CARRITO ========== */
+.empty-cart {
+  text-align: center;
+  padding: 40px;
+}
+
+.empty-cart p {
+  margin-bottom: 20px;
+  color: var(--text-muted);
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.cart-table th,
+.cart-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.cart-table th {
+  background: rgba(124, 58, 237, 0.1);
+  font-weight: 600;
+}
+
+.cart-table tfoot td {
+  border-bottom: none;
+  font-size: 1.1rem;
+}
+
+.cart-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* ========== HISTORIAL RESERVAS ========== */
+.reservations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.reservation-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.reservation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.reservation-date {
+  color: var(--text-muted);
+}
+
+.reservation-total {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.reservation-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reservation-items li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  gap: 15px;
+}
+
+.reservation-items li strong {
+  flex: 1;
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+}
+
+.empty-cart p {
+  margin-bottom: 20px;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 600px) {
+  header {
+    text-align: center;
+  }
+
+  nav {
+    justify-content: center;
+  }
+
+  .hero h2 {
+    font-size: 1.5rem;
+  }
+
+  .profile-card dl {
+    grid-template-columns: 1fr;
+  }
+
+  .theme-options {
+    flex-direction: column;
+  }
+}
