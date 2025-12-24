@@ -27,6 +27,7 @@ access.log
 sessions.json
 users.json
 products.json
+bookings.json
 
 README.md
 instructions.md
