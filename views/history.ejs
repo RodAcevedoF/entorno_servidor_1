@@ -10,14 +10,14 @@
 	<% bookings.forEach(function(booking) { %>
 	<div class="reservation-card">
 		<div class="reservation-header">
-			<span class="reservation-date"><%= new Date(booking.createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }) %></span>
+			<span class="reservation-date"><%= formatDateTime(booking.createdAt) %></span>
 			<span class="reservation-total"><%= booking.total %>€</span>
 		</div>
 		<ul class="reservation-items">
 			<% booking.items.forEach(function(item) { %>
 			<li>
 				<strong><%= item.session.title %></strong>
-				<span><%= new Date(item.session.date).toLocaleDateString('en-US') %> - <%= item.session.time %></span>
+				<span><%= formatDate(item.session.date) %> - <%= formatTime(item.session.time) %></span>
 				<span>x<%= item.quantity %></span>
 			</li>
 			<% }); %>

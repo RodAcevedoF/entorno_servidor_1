@@ -8,18 +8,18 @@
 	<% sessions.forEach(function(s) { %>
 	<div class="session-card">
 		<h3><%= s.title %></h3>
-		<p class="description"><%= s.descripcion %></p>
+		<p class="description"><%= s.description %></p>
 		<div class="details">
 			<span class="date"
-				>📅 <%= new Date(s.date).toLocaleDateString('en-US') %></span
+				>📅 <%= formatDate(s.date) %></span
 			>
-			<span class="time">🕐 <%= s.time %>h</span>
+			<span class="time">🕐 <%= formatTime(s.time) %>h</span>
 			<span class="spots">👥 <%= s.places %> spots</span>
 		</div>
 		<div class="price"><%= s.price %>€</div>
 		<% if (user) { %>
 		<form action="/cart/add" method="POST">
-			<input type="hidden" name="sesionId" value="<%= s.id %>" />
+			<input type="hidden" name="sessionId" value="<%= s.id %>" />
 			<button type="submit" class="button">Add to Cart</button>
 		</form>
 		<% } else { %>

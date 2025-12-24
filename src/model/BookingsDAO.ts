@@ -3,7 +3,7 @@ import path from 'path';
 import { Booking, CartItem } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 
-const DATA_PATH = path.join(__dirname, '../../data/reservas.json');
+const DATA_PATH = path.join(__dirname, '../../data/bookings.json');
 
 function getBookings(): Booking[] {
   if (!fs.existsSync(DATA_PATH)) {
@@ -14,8 +14,8 @@ function getBookings(): Booking[] {
   return JSON.parse(data);
 }
 
-function guardarReservas(reservas: Booking[]): void {
-  fs.writeFileSync(DATA_PATH, JSON.stringify(reservas, null, 2), 'utf-8');
+function saveBookings(bookings: Booking[]): void {
+  fs.writeFileSync(DATA_PATH, JSON.stringify(bookings, null, 2), 'utf-8');
 }
 
 export function create(
@@ -32,14 +32,14 @@ export function create(
     createdAt: new Date().toISOString(),
   };
   const updated = [...bookings, newBooking];
-  guardarReservas(updated);
+  saveBookings(updated);
   return newBooking;
 }
 
-export function getBookingByUser(usuarioId: string): Booking[] {
+export function getBookingsByUser(userId: string): Booking[] {
   const bookings = getBookings();
   return bookings
-    .filter((r) => r.userId === usuarioId)
+    .filter((r) => r.userId === userId)
     .sort(
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()

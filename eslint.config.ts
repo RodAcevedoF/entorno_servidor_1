@@ -34,7 +34,7 @@ export default [
       prettier: prettierPlugin,
     },
     rules: {
-      'prettier/prettier': 'error',
+      'prettier/prettier': 'warn',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
         'warn',

@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "commonjs",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "lib": ["ES2022"],
     "outDir": "./dist",
     "rootDir": ".",
@@ -12,12 +13,17 @@
       "test/*": ["tests/*"]
     },
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "declaration": true,
     "typeRoots": ["./src/types", "./node_modules/@types"]
   },
-  "include": ["src/**/*", "__tests__/**/*", "jest.config.ts", "__mocks__/**/*"],
+  "include": [
+    "src/**/*",
+    "__tests__/**/*",
+    "jest.config.ts",
+    "__mocks__/**/*",
+    "prisma.config.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }

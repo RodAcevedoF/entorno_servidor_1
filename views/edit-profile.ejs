@@ -10,13 +10,13 @@
 </div>
 <% } %>
 
-<form action="/profile/edit" method="POST" class="form-registro">
+<form action="/profile/edit" method="POST" class="form-register">
 	<div class="field">
-		<label for="nombre">Name *</label>
+		<label for="name">Name *</label>
 		<input
 			type="text"
-			id="nombre"
-			name="nombre"
+			id="name"
+			name="name"
 			value="<%= user.name %>"
 			required />
 	</div>
@@ -32,22 +32,22 @@
 	</div>
 
 	<div class="field">
-		<label for="edad">Age *</label>
+		<label for="age">Age *</label>
 		<input
 			type="number"
-			id="edad"
-			name="edad"
+			id="age"
+			name="age"
 			value="<%= user.age %>"
 			min="1"
 			required />
 	</div>
 
 	<div class="field">
-		<label for="ciudad">City</label>
+		<label for="city">City</label>
 		<input
 			type="text"
-			id="ciudad"
-			name="ciudad"
+			id="city"
+			name="city"
 			value="<%= user.city || '' %>" />
 	</div>
 
@@ -55,28 +55,28 @@
 		<label>Interests</label>
 		<div class="checkboxes">
 			<label>
-				<input type="checkbox" name="intereses" value="meditacion"
-					<%= user.interests?.includes('meditacion') ? 'checked' : '' %> />
+				<input type="checkbox" name="interests" value="meditation"
+					<%= user.interests?.includes('meditation') ? 'checked' : '' %> />
 				Meditation
 			</label>
 			<label>
-				<input type="checkbox" name="intereses" value="sanacion"
-					<%= user.interests?.includes('sanacion') ? 'checked' : '' %> />
+				<input type="checkbox" name="interests" value="energy_healing"
+					<%= user.interests?.includes('energy_healing') ? 'checked' : '' %> />
 				Energy Healing
 			</label>
 			<label>
-				<input type="checkbox" name="intereses" value="chakras"
+				<input type="checkbox" name="interests" value="chakras"
 					<%= user.interests?.includes('chakras') ? 'checked' : '' %> />
 				Chakras
 			</label>
 			<label>
-				<input type="checkbox" name="intereses" value="viaje_astral"
-					<%= user.interests?.includes('viaje_astral') ? 'checked' : '' %> />
+				<input type="checkbox" name="interests" value="astral_journey"
+					<%= user.interests?.includes('astral_journey') ? 'checked' : '' %> />
 				Astral Journey
 			</label>
 			<label>
-				<input type="checkbox" name="intereses" value="regresiones"
-					<%= user.interests?.includes('regresiones') ? 'checked' : '' %> />
+				<input type="checkbox" name="interests" value="regression_therapy"
+					<%= user.interests?.includes('regression_therapy') ? 'checked' : '' %> />
 				Regression Therapy
 			</label>
 		</div>

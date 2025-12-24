@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import * as UsersDAO from '../model/UsersDAO';
+import * as UsersDAO from '../model/UsersPrismaDAO';
 import * as Logger from '../model/Logger';
 
 export function show(req: Request, res: Response) {
   if (!req.session.user) {
     return res.redirect('/login');
   }
-  Logger.register('Acceso a perfil', req.session.user.email);
+  Logger.register('Profile accessed', req.session.user.email);
   res.render('profile', { title: 'My Profile' });
 }
 
@@ -17,7 +17,7 @@ export function showEdit(req: Request, res: Response) {
   res.render('edit-profile', { title: 'Edit profile', errors: [] });
 }
 
-export function editar(req: Request, res: Response) {
+export async function editar(req: Request, res: Response) {
   if (!req.session.user) {
     return res.redirect('/login');
   }
@@ -26,10 +26,10 @@ export function editar(req: Request, res: Response) {
   const errors: string[] = [];
 
   if (!name || name.trim().length < 2) {
-    errors.push('El nombre debe tener al menos 2 caracteres');
+    errors.push('Name must be at least 2 characters');
   }
   if (!age || Number(age) <= 0) {
-    errors.push('La edad debe ser mayor que 0');
+    errors.push('Age must be greater than 0');
   }
 
   if (errors.length > 0) {
@@ -45,7 +45,7 @@ export function editar(req: Request, res: Response) {
       ? [interests]
       : [];
 
-  const updated = UsersDAO.update(req.session.user.id, {
+  const updated = await UsersDAO.update(req.session.user.id, {
     name: name.trim(),
     age: Number(age),
     city: city?.trim() || '',
@@ -54,7 +54,7 @@ export function editar(req: Request, res: Response) {
 
   if (updated) {
     req.session.user = updated;
-    Logger.register('Updated profile', req.session.user.email);
+    Logger.register('Updated profile', updated.email);
   }
 
   res.redirect('/profile');

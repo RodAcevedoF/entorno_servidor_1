@@ -19,13 +19,13 @@
 	<tbody>
 		<% cart.forEach(function(item) { %>
 		<tr>
-			<td><%= item.sesion.titulo %></td>
-			<td><%= new Date(item.sesion.fecha).toLocaleDateString('en-US') %></td>
-			<td><%= item.cantidad %></td>
-			<td><%= item.sesion.precio * item.cantidad %>€</td>
+			<td><%= item.session.title %></td>
+			<td><%= formatDate(item.session.date) %></td>
+			<td><%= item.quantity %></td>
+			<td><%= item.session.price * item.quantity %>€</td>
 			<td>
-				<form action="/cart/delete" method="DELETE" style="margin:0">
-					<input type="hidden" name="sesionId" value="<%= item.sesion.id %>">
+				<form action="/cart/delete" method="POST" style="margin:0">
+					<input type="hidden" name="sessionId" value="<%= item.session.id %>">
 					<button type="submit" class="button-small button-danger">Remove</button>
 				</form>
 			</td>
@@ -44,9 +44,9 @@
 	<form action="/bookings/confirm" method="POST">
 		<button type="submit" class="button button-success">Confirm Booking</button>
 	</form>
-	<form action="/cart/empty" method="DELETE">
-		<button type="submit" class="button button-danger">Empty Cart</button>
-	</form>
+		<form action="/cart/empty" method="POST">
+			<button type="submit" class="button button-danger">Empty Cart</button>
+		</form>
 	<a href="/sessions" class="button">Continue Exploring</a>
 </div>
 <% } %>

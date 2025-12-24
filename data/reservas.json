@@ -1,0 +1,22 @@
+[
+  {
+    "id": "b321305d-14db-42d8-9aa1-3b3f2b274b1d",
+    "userId": "5b037950-f3ba-477c-8b01-9b0ba688215d",
+    "items": [
+      {
+        "session": {
+          "id": "2",
+          "title": "Sanación del Niño Interior",
+          "description": "Trabajo profundo para sanar heridas emocionales del pasado y liberar bloqueos.",
+          "date": "2025-01-22",
+          "time": "17:30",
+          "price": 55,
+          "places": 8
+        },
+        "quantity": 1
+      }
+    ],
+    "total": 55,
+    "createdAt": "2025-12-24T18:51:40.043Z"
+  }
+]

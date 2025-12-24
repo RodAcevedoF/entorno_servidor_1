@@ -3,6 +3,12 @@ import * as SessionsDAO from '../model/SessionsDAO';
 import * as Logger from '../model/Logger';
 import { CartItem } from '../types';
 
+export const CartController = {
+  show,
+  add,
+  deleteItem,
+  empty,
+};
 export function show(req: Request, res: Response) {
   if (!req.session.user) {
     return res.redirect('/login');
@@ -12,7 +18,7 @@ export function show(req: Request, res: Response) {
     (sum: number, item: CartItem) => sum + item.session.price * item.quantity,
     0
   );
-  res.render('cart', { title: 'Cart Espiritual', total });
+  res.render('cart', { title: 'Spiritual Cart', total });
 }
 
 export function add(req: Request, res: Response) {
@@ -20,8 +26,8 @@ export function add(req: Request, res: Response) {
     return res.redirect('/login');
   }
 
-  const { sesionId } = req.body;
-  const session = SessionsDAO.getSessionById(sesionId);
+  const { sessionId } = req.body;
+  const session = SessionsDAO.getSessionById(sessionId);
 
   if (!session) {
     return res.redirect('/sessions');
@@ -32,7 +38,7 @@ export function add(req: Request, res: Response) {
   }
 
   const existente = req.session.cart.find(
-    (item: CartItem) => item.session.id === sesionId
+    (item: CartItem) => item.session.id === sessionId
   );
   if (existente) {
     existente.quantity++;
@@ -50,9 +56,10 @@ export function deleteItem(req: Request, res: Response) {
   }
 
   const { sessionId } = req.body;
+  const id = sessionId;
   if (req.session.cart) {
     const item = req.session.cart.find(
-      (item: CartItem) => item.session.id === sessionId
+      (item: CartItem) => item.session.id === id
     );
     if (item) {
       Logger.register(
@@ -61,7 +68,7 @@ export function deleteItem(req: Request, res: Response) {
       );
     }
     req.session.cart = req.session.cart.filter(
-      (item: CartItem) => item.session.id !== sessionId
+      (item: CartItem) => item.session.id !== id
     );
   }
   res.redirect('/cart');

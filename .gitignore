@@ -27,3 +27,11 @@ access.log
 sessions.json
 users.json
 products.json
+
+README.md
+instructions.md
+
+
+/generated/prisma
+.env.example
+dev.db

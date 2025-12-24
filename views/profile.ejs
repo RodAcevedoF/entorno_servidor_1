@@ -17,12 +17,13 @@
 
     <dt>Interests</dt>
     <dd>
-      <%= (user.interests && user.interests.length > 0) ? user.interests.join(',
-      ') : 'None selected' %>
+      <%= (user.interests && user.interests.length > 0)
+        ? user.interests.join(', ')
+        : 'None selected' %>
     </dd>
 
     <dt>Member since</dt>
-    <dd><%= new Date(user.createdAt).toLocaleDateString('en-US') %></dd>
+    <dd><%= formatDate(user.createdAt) %></dd>
   </dl>
 </div>
 

@@ -436,7 +436,7 @@ button:hover,
   gap: 10px;
 }
 
-/* ========== HISTORIAL RESERVAS ========== */
+/* ========== BOOKINGS HISTORY ========== */
 .reservations-list {
   display: flex;
   flex-direction: column;
