@@ -1,95 +1,103 @@
-import { validationResult } from 'express-validator';
 import { Request, Response } from 'express';
-import * as UsersDAO from '../model/UsersPrismaDAO';
-import * as Logger from '../model/Logger';
+import { validationResult } from 'express-validator';
+import { UserRepository, Logger } from '../model/interfaces';
 
-export const AuthController = {
-  showRegister(req: Request, res: Response) {
-    res.render('register', { title: 'Register', errors: [], data: {} });
-  },
+export class AuthController {
+  constructor(
+    private readonly users: UserRepository,
+    private readonly logger: Logger
+  ) {}
 
-  showLogin(req: Request, res: Response) {
-    res.render('login', { title: 'Sign in', error: null });
-  },
+  public loginForm = (req: Request, res: Response) => {
+    res.render('login', {
+      title: 'Login',
+      errors: [],
+      data: {},
+    });
+  };
 
-  async register(req: Request, res: Response) {
+  public login = async (req: Request, res: Response) => {
     const errors = validationResult(req);
-    const errorMessages: string[] = [];
-
     if (!errors.isEmpty()) {
-      errors.array().forEach((e) => errorMessages.push(e.msg));
+      return res.render('login', {
+        title: 'Login',
+        errors: errors.array(),
+        data: req.body,
+      });
+    }
+
+    const { email, password } = req.body;
+    const user = await this.users.validateLogin(email, password);
+
+    if (user) {
+      req.session.user = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      };
+      this.logger.register('LOGIN_SUCCESS', user.id);
+      res.redirect('/profile');
+    } else {
+      this.logger.register('LOGIN_FAIL', email);
+      res.render('login', {
+        title: 'Login',
+        errors: [{ msg: 'Invalid credentials' }],
+        data: { email },
+      });
+    }
+  };
+
+  public registerForm = (req: Request, res: Response) => {
+    res.render('register', {
+      title: 'Register',
+      errors: [],
+      data: {},
+    });
+  };
+
+  public register = async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
       return res.render('register', {
         title: 'Register',
-        errors: errorMessages,
+        errors: errors.array(),
         data: req.body,
       });
     }
 
     const { name, email, password, age, city, interests } = req.body;
+    const existingUser = await this.users.getUserByEmail(email);
 
-    const interestsArray = Array.isArray(interests)
-      ? interests
-      : interests
-        ? [interests]
-        : [];
-    try {
-      await UsersDAO.create({
-        name: name.trim(),
-        email: email.toLowerCase().trim(),
-        password,
-        age: Number(age),
-        city: city?.trim() || '',
-        interests: interestsArray,
-      });
-
-      const user = await UsersDAO.getUserByEmail(email);
-      Logger.register('New register', email);
-      res.redirect(`/login?registered=${user?.id}`);
-    } catch (error) {
-      console.error('Error creating user:', error);
-      errorMessages.push('Error creating user, Try again.');
+    if (existingUser) {
       return res.render('register', {
         title: 'Register',
-        errors: errorMessages,
+        errors: [{ msg: 'Email already in use' }],
         data: req.body,
       });
     }
-  },
 
-  async login(req: Request, res: Response) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.render('login', {
-        title: 'Sign In',
-        error: errors
-          .array()
-          .map((e) => e.msg)
-          .join(', '),
-      });
-    }
+    const newUser = await this.users.create({
+      name,
+      email,
+      password,
+      age: parseInt(age, 10),
+      city,
+      interests: interests ? (Array.isArray(interests) ? interests : [interests]) : [],
+    });
 
-    const { email, password } = req.body;
-    const user = await UsersDAO.validateLogin(email, password);
-
-    if (!user) {
-      Logger.register('Failed login attempt', email);
-      return res.render('login', {
-        title: 'Sign in',
-        error: 'Invalid credentials',
-      });
-    }
-
-    req.session.user = user;
-    req.session.cart = [];
-    Logger.register('Successful login', email);
+    req.session.user = {
+      id: newUser.id,
+      name: newUser.name,
+      email: newUser.email,
+    };
+    this.logger.register('REGISTER_SUCCESS', newUser.id);
     res.redirect('/profile');
-  },
+  };
 
-  logout(req: Request, res: Response) {
-    const email = req.session.user?.email;
+  public logout = (req: Request, res: Response) => {
+    this.logger.register('LOGOUT', req.session.user?.id);
     req.session.destroy(() => {
-      Logger.register('Logout', email);
       res.redirect('/');
     });
-  },
-};
+  };
+}

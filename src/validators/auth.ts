@@ -1,5 +1,5 @@
 import { body } from 'express-validator';
-import * as UsersDAO from '../model/UsersPrismaDAO';
+import * as UsersDAO from '../model/User';
 
 export const registerValidators = [
   body('name')

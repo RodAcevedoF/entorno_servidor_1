@@ -36,7 +36,13 @@ export interface Booking {
 
 declare module 'express-session' {
   interface SessionData {
-    user: User | null;
+    user: SessionUser | null;
     cart: CartItem[];
   }
+}
+
+export interface SessionUser {
+  id: string;
+  name: string;
+  email: string;
 }

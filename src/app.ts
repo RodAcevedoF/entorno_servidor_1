@@ -60,11 +60,11 @@ app.set('sessionCookieSecure', IS_SECURE_COOKIE);
 
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../views'));
+app.set('views', path.join(process.cwd(), 'views'));
 app.set('layout', 'layout');
 app.set('view cache', false);
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(process.cwd(), 'public')));
 app.use(cookieParser());
 app.use(
   session({

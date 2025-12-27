@@ -49,4 +49,6 @@ model BookingItem {
   sessionId  String
   session    Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   quantity   Int
+  unitPrice  Float
+  snapshot   String?
 }
