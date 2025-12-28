@@ -29,9 +29,6 @@ users.json
 products.json
 bookings.json
 
-README.md
-instructions.md
-
 
 /generated/prisma
 .env.example
