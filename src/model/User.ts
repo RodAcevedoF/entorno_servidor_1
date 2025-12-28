@@ -1,12 +1,12 @@
+import { User, UserDTO } from '../types';
 import prisma from '../db/prisma';
-import { User } from '../types';
 import { hashPassword, comparePassword } from '../utils/auth';
 import { UserRepository } from './interfaces';
 
 export class UserModel implements UserRepository {
   async getAllUsers(): Promise<User[]> {
-    const users = await prisma.user.findMany();
-    return users.map((u) => ({
+    const users = (await prisma.user.findMany()) as UserDTO[];
+    return users.map((u: UserDTO) => ({
       id: u.id,
       name: u.name,
       email: u.email,
@@ -20,7 +20,9 @@ export class UserModel implements UserRepository {
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {
-    const u = await prisma.user.findUnique({ where: { email } });
+    const u = (await prisma.user.findUnique({ where: { email } })) as
+      | UserDTO
+      | undefined;
     if (!u) return undefined;
     return {
       id: u.id,
@@ -36,7 +38,9 @@ export class UserModel implements UserRepository {
   }
 
   async getUserById(id: string): Promise<User | undefined> {
-    const u = await prisma.user.findUnique({ where: { id } });
+    const u = (await prisma.user.findUnique({ where: { id } })) as
+      | UserDTO
+      | undefined;
     if (!u) return undefined;
     return {
       id: u.id,
@@ -53,7 +57,7 @@ export class UserModel implements UserRepository {
 
   async create(usuario: Omit<User, 'id' | 'createdAt'>): Promise<User> {
     const hash = await hashPassword(usuario.password);
-    const u = await prisma.user.create({
+    const u = (await prisma.user.create({
       data: {
         name: usuario.name,
         email: usuario.email,
@@ -63,7 +67,7 @@ export class UserModel implements UserRepository {
         interests: JSON.stringify(usuario.interests || []),
         theme: usuario.theme || 'light',
       },
-    });
+    })) as UserDTO;
     return {
       id: u.id,
       name: u.name,
@@ -78,7 +82,9 @@ export class UserModel implements UserRepository {
   }
 
   async validateLogin(email: string, password: string): Promise<User | null> {
-    const u = await prisma.user.findUnique({ where: { email } });
+    const u = (await prisma.user.findUnique({ where: { email } })) as
+      | UserDTO
+      | undefined;
     if (!u) return null;
     if (await comparePassword(password, u.password)) {
       return {
@@ -101,7 +107,7 @@ export class UserModel implements UserRepository {
     data: Partial<Omit<User, 'id' | 'email' | 'password' | 'createdAt'>>
   ): Promise<User | null> {
     try {
-      const u = await prisma.user.update({
+      const u = (await prisma.user.update({
         where: { id },
         data: {
           name: data.name,
@@ -112,7 +118,7 @@ export class UserModel implements UserRepository {
             : undefined,
           theme: data.theme,
         },
-      });
+      })) as UserDTO;
       return {
         id: u.id,
         name: u.name,

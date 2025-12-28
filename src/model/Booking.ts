@@ -1,4 +1,10 @@
-import { Booking, CartItem, Session } from '../types';
+import {
+  Booking,
+  BookingDTO,
+  BookingItemDTO,
+  CartItem,
+  Session,
+} from '../types';
 import { v4 as uuidv4 } from 'uuid';
 import prisma from '../db/prisma';
 import { BookingRepository } from './interfaces';
@@ -6,12 +12,7 @@ import { BookingRepository } from './interfaces';
 export class BookingModel implements BookingRepository {
   constructor() {}
 
-  private resolveSession(item: {
-    session: Session | null;
-    sessionId: string;
-    unitPrice: number;
-    snapshot: string | null;
-  }): Session {
+  private resolveSession(item: BookingItemDTO): Session {
     if (item.session) return item.session;
     if (item.snapshot) {
       try {
@@ -37,7 +38,7 @@ export class BookingModel implements BookingRepository {
     total: number
   ): Promise<Booking> {
     const newBookingId = uuidv4();
-    const booking = await prisma.booking.create({
+    const booking = (await prisma.booking.create({
       data: {
         id: newBookingId,
         userId,
@@ -58,12 +59,12 @@ export class BookingModel implements BookingRepository {
           },
         },
       },
-    });
+    })) as unknown as BookingDTO;
 
     return {
       id: booking.id,
       userId: booking.userId,
-      items: booking.items.map((item) => ({
+      items: booking.items.map((item: BookingItemDTO) => ({
         session: this.resolveSession(item),
         quantity: item.quantity,
       })),
@@ -73,7 +74,7 @@ export class BookingModel implements BookingRepository {
   }
 
   async getBookingsByUser(userId: string): Promise<Booking[]> {
-    const bookings = await prisma.booking.findMany({
+    const bookings = (await prisma.booking.findMany({
       where: { userId },
       orderBy: { createdAt: 'desc' },
       include: {
@@ -83,12 +84,12 @@ export class BookingModel implements BookingRepository {
           },
         },
       },
-    });
+    })) as unknown as BookingDTO[];
 
-    return bookings.map((b) => ({
+    return bookings.map((b: BookingDTO) => ({
       id: b.id,
       userId: b.userId,
-      items: b.items.map((item) => ({
+      items: b.items.map((item: BookingItemDTO) => ({
         session: this.resolveSession(item),
         quantity: item.quantity,
       })),
@@ -98,7 +99,7 @@ export class BookingModel implements BookingRepository {
   }
 
   async getBookingById(id: string): Promise<Booking | null> {
-    const booking = await prisma.booking.findUnique({
+    const booking = (await prisma.booking.findUnique({
       where: { id },
       include: {
         items: {
@@ -107,14 +108,14 @@ export class BookingModel implements BookingRepository {
           },
         },
       },
-    });
+    })) as unknown as BookingDTO | null;
 
     if (!booking) return null;
 
     return {
       id: booking.id,
       userId: booking.userId,
-      items: booking.items.map((item) => ({
+      items: booking.items.map((item: BookingItemDTO) => ({
         session: this.resolveSession(item),
         quantity: item.quantity,
       })),

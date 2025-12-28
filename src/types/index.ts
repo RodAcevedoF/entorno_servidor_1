@@ -48,3 +48,42 @@ export interface SessionUser {
   email: string;
   theme: string;
 }
+export interface UserDTO {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  age: number;
+  city: string;
+  interests: string;
+  theme: string;
+  createdAt: Date;
+}
+
+export interface SessionDTO {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  price: number;
+  places: number;
+}
+
+export interface BookingItemDTO {
+  id: string;
+  bookingId: string;
+  sessionId: string;
+  quantity: number;
+  unitPrice: number;
+  snapshot: string | null;
+  session?: Session;
+}
+
+export interface BookingDTO {
+  id: string;
+  userId: string;
+  total: number;
+  createdAt: Date;
+  items: BookingItemDTO[];
+}

@@ -6,6 +6,7 @@ const dbPath = path.join(process.cwd(), 'dev.db');
 const DATABASE_URL = process.env.DATABASE_URL ?? `file:${dbPath}`;
 
 const adapter = new PrismaBetterSqlite3({ url: DATABASE_URL });
+console.log(`[Prisma] Connecting to: ${DATABASE_URL}`);
 const prisma = new PrismaClient({ adapter });
 
 export default prisma;
