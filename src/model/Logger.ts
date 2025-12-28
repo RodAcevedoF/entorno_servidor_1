@@ -2,10 +2,18 @@ import fs from 'fs';
 import path from 'path';
 import { Logger } from './interfaces';
 
-const LOG_PATH = path.join(__dirname, '../../data/access.log');
+const LOG_DIR = path.join(process.cwd(), 'data');
+const LOG_PATH = path.join(LOG_DIR, 'access.log');
 
 export class LoggerModel implements Logger {
+  private ensureDirectory() {
+    if (!fs.existsSync(LOG_DIR)) {
+      fs.mkdirSync(LOG_DIR, { recursive: true });
+    }
+  }
+
   register(accion: string, user?: string): void {
+    this.ensureDirectory();
     const timestamp = new Date().toISOString();
     const userInfo = user || 'Guest';
     const line = `[${timestamp}] User: ${userInfo} | Action: ${accion}\n`;
