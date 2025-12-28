@@ -12,8 +12,8 @@
     "test": "DATABASE_URL=file:$(pwd)/test.db jest --config jest.config.ts --runInBand",
     "prepare": "husky install",
     "check": "npm run lint && tsc --noEmit",
-    "prisma:generate": "prisma generate",
-    "prisma:dbpush": "prisma db push",
+    "prisma:generate": "npx prisma generate",
+    "prisma:dbpush": "npx prisma db push",
     "db:seed": "ts-node prisma/seed.ts"
   },
   "lint-staged": {
@@ -72,6 +72,8 @@
     "express-session": "^1.18.1",
     "express-validator": "^7.0.1",
     "helmet": "^8.1.0",
+    "prisma": "^7.2.0",
+    "ts-node": "^10.9.1",
     "uuid": "^13.0.0"
   }
 }
