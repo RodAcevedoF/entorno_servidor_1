@@ -36,3 +36,4 @@ instructions.md
 /generated/prisma
 .env.example
 dev.db
+test.db
