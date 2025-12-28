@@ -9,7 +9,7 @@
     "dev": "nodemon --watch src --ext ts --exec \"ts-node src/app.ts\"",
     "lint": "node -r ts-node/register ./node_modules/eslint/bin/eslint.js . --ext .ts,.js",
     "lint:fix": "node -r ts-node/register ./node_modules/eslint/bin/eslint.js . --ext .ts,.js --fix",
-    "test": "DATABASE_URL=file:$(pwd)/test.db jest --config jest.config.ts --runInBand",
+    "test": "DATABASE_URL=file:$(pwd)/test.db npx prisma db push --accept-data-loss && DATABASE_URL=file:$(pwd)/test.db jest --config jest.config.ts --runInBand",
     "prepare": "husky install",
     "check": "npm run lint && tsc --noEmit",
     "prisma:generate": "npx prisma generate",
