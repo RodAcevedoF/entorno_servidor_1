@@ -1,15 +1,13 @@
 import request from 'supertest';
 import app from '../../src/app';
 import { test, expect, beforeEach } from '@jest/globals';
-import fs from 'fs';
-import path from 'path';
+import prisma from '../../src/db/prisma';
 
-const USERS_PATH = path.join(__dirname, '../../data/users.json');
-
-beforeEach(() => {
-  if (fs.existsSync(USERS_PATH)) {
-    fs.writeFileSync(USERS_PATH, '[]', 'utf-8');
-  }
+beforeEach(async () => {
+  await prisma.bookingItem.deleteMany();
+  await prisma.booking.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.session.deleteMany();
 });
 
 test('register fails with invalid email and short name', async () => {
@@ -29,12 +27,13 @@ test('register succeeds with valid data', async () => {
   const res = await request(app).post('/register').type('form').send({
     name: 'Alice',
     email: 'alice@example.com',
-    password: 'secure',
+    password: 'securePassword123',
     age: '30',
+    city: 'Barcelona',
   });
 
   expect(res.status).toBe(302);
-  expect(res.headers.location).toMatch(/\/login\?registered=/);
+  expect(res.headers.location).toBe('/profile');
 });
 
 test('login fails when missing email', async () => {

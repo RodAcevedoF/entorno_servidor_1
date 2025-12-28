@@ -14,6 +14,7 @@ export class UserModel implements UserRepository {
       age: u.age,
       city: u.city,
       interests: u.interests ? JSON.parse(u.interests) : [],
+      theme: u.theme,
       createdAt: u.createdAt.toISOString(),
     }));
   }
@@ -29,6 +30,7 @@ export class UserModel implements UserRepository {
       age: u.age,
       city: u.city,
       interests: u.interests ? JSON.parse(u.interests) : [],
+      theme: u.theme,
       createdAt: u.createdAt.toISOString(),
     };
   }
@@ -44,6 +46,7 @@ export class UserModel implements UserRepository {
       age: u.age,
       city: u.city,
       interests: u.interests ? JSON.parse(u.interests) : [],
+      theme: u.theme,
       createdAt: u.createdAt.toISOString(),
     };
   }
@@ -58,6 +61,7 @@ export class UserModel implements UserRepository {
         age: usuario.age,
         city: usuario.city,
         interests: JSON.stringify(usuario.interests || []),
+        theme: usuario.theme || 'light',
       },
     });
     return {
@@ -68,6 +72,7 @@ export class UserModel implements UserRepository {
       age: u.age,
       city: u.city,
       interests: u.interests ? JSON.parse(u.interests) : [],
+      theme: u.theme,
       createdAt: u.createdAt.toISOString(),
     };
   }
@@ -84,6 +89,7 @@ export class UserModel implements UserRepository {
         age: u.age,
         city: u.city,
         interests: u.interests ? JSON.parse(u.interests) : [],
+        theme: u.theme,
         createdAt: u.createdAt.toISOString(),
       };
     }
@@ -104,6 +110,7 @@ export class UserModel implements UserRepository {
           interests: data.interests
             ? JSON.stringify(data.interests)
             : undefined,
+          theme: data.theme,
         },
       });
       return {
@@ -113,7 +120,8 @@ export class UserModel implements UserRepository {
         password: u.password,
         age: u.age,
         city: u.city,
-        interests: Array.isArray(u.interests) ? u.interests : [],
+        interests: u.interests ? JSON.parse(u.interests) : [],
+        theme: u.theme,
         createdAt: u.createdAt.toISOString(),
       };
     } catch {

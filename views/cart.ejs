@@ -1,52 +1,71 @@
-<h2>Spiritual Cart</h2>
+<section class="cart-container" style="max-width: 900px; margin: 0 auto;">
+  <div class="page-header">
+    <h1>Your Cart</h1>
+    <p class="tagline">Review your selected sessions before confirming</p>
+  </div>
 
-<% if (cart.length === 0) { %>
-<div class="empty-cart">
-	<p>Your spiritual cart is empty.</p>
-	<a href="/sessions" class="button">Explore Sessions</a>
-</div>
-<% } else { %>
-<table class="cart-table">
-	<thead>
-		<tr>
-			<th>Session</th>
-			<th>Date</th>
-			<th>Quantity</th>
-			<th>Price</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		<% cart.forEach(function(item) { %>
-		<tr>
-			<td><%= item.session.title %></td>
-			<td><%= formatDate(item.session.date) %></td>
-			<td><%= item.quantity %></td>
-			<td><%= item.session.price * item.quantity %>€</td>
-			<td>
-				<form action="/cart/delete" method="POST" style="margin:0">
-					<input type="hidden" name="sessionId" value="<%= item.session.id %>">
-					<button type="submit" class="button-small button-danger">Remove</button>
-				</form>
-			</td>
-		</tr>
-		<% }); %>
-	</tbody>
-	<tfoot>
-		<tr>
-			<td colspan="4"><strong>Total</strong></td>
-			<td><strong><%= total %>€</strong></td>
-		</tr>
-	</tfoot>
-</table>
+  <% if (cart.length === 0) { %>
+  <div class="empty-cart card" style="text-align: center; padding: 60px;">
+    <div style="font-size: 4rem; color: var(--text-muted); margin-bottom: 24px;">
+      <i class="fas fa-shopping-basket"></i>
+    </div>
+    <p style="font-size: 1.2rem; margin-bottom: 32px;">Your spiritual cart is empty.</p>
+    <a href="/sessions" class="btn btn-primary">Explore Sessions</a>
+  </div>
+  <% } else { %>
+  <div class="card" style="padding: 0; overflow: hidden;">
+    <div style="overflow-x: auto;">
+      <table class="cart-table" style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background: rgba(0,0,0,0.03);">
+            <th style="padding: 20px; text-align: left; font-family: var(--font-heading); color: var(--text-muted);">Session</th>
+            <th style="padding: 20px; text-align: left; font-family: var(--font-heading); color: var(--text-muted);">Date</th>
+            <th style="padding: 20px; text-align: center; font-family: var(--font-heading); color: var(--text-muted);">Quantity</th>
+            <th style="padding: 20px; text-align: right; font-family: var(--font-heading); color: var(--text-muted);">Price</th>
+            <th style="padding: 20px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% cart.forEach(function(item) { %>
+          <tr style="border-bottom: 1px solid var(--card-border);">
+            <td style="padding: 20px; font-weight: 600;"><%= item.session.title %></td>
+            <td style="padding: 20px; color: var(--text-muted);"><%= formatDate(item.session.date) %></td>
+            <td style="padding: 20px; text-align: center;"><%= item.quantity %></td>
+            <td style="padding: 20px; text-align: right; font-weight: 600; color: var(--primary);"><%= item.session.price * item.quantity %>€</td>
+            <td style="padding: 20px; text-align: center;">
+              <a href="/cart/remove/<%= item.session.id %>" class="remove-btn" style="color: #ef4444; font-size: 1.1rem; transition: color 0.2s;">
+                <i class="fas fa-trash-alt"></i>
+              </a>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+        <tfoot>
+          <tr style="background: rgba(0,0,0,0.03);">
+            <td colspan="3" style="padding: 24px; text-align: right; font-size: 1.2rem; font-weight: 700; color: var(--heading-color);">Total</td>
+            <td style="padding: 24px; text-align: right; font-size: 1.5rem; font-weight: 800; color: var(--primary);"><%= total %>€</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
 
-<div class="cart-actions">
-	<form action="/bookings/confirm" method="POST">
-		<button type="submit" class="button button-success">Confirm Booking</button>
-	</form>
-		<form action="/cart/empty" method="POST">
-			<button type="submit" class="button button-danger">Empty Cart</button>
-		</form>
-	<a href="/sessions" class="button">Continue Exploring</a>
-</div>
-<% } %>
+  <div class="cart-actions" style="margin-top: 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+    <a href="/sessions" class="btn btn-outline" style="border: 1px solid var(--card-border); color: var(--text-main);">
+      <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> Continue Exploring
+    </a>
+    <form action="/cart/checkout" method="POST" style="margin: 0;">
+      <button type="submit" class="btn btn-primary" style="padding: 16px 40px; font-size: 1.1rem;">
+        Confirm Booking <i class="fas fa-check" style="margin-left: 8px;"></i>
+      </button>
+    </form>
+  </div>
+  <% } %>
+</section>
+
+<style>
+  .remove-btn:hover {
+    color: #dc2626 !important;
+  }
+</style>

@@ -9,8 +9,9 @@ export class AuthController {
   ) {}
 
   public loginForm = (req: Request, res: Response) => {
-    res.render('login', {
-      title: 'Login',
+    res.render('auth', {
+      title: 'Sign In',
+      activeTab: 'login',
       errors: [],
       data: {},
     });
@@ -19,8 +20,9 @@ export class AuthController {
   public login = async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.render('login', {
-        title: 'Login',
+      return res.render('auth', {
+        title: 'Sign In',
+        activeTab: 'login',
         errors: errors.array(),
         data: req.body,
       });
@@ -34,13 +36,16 @@ export class AuthController {
         id: user.id,
         name: user.name,
         email: user.email,
+        theme: user.theme,
       };
+      res.cookie('theme', user.theme, { maxAge: 31536000, httpOnly: false });
       this.logger.register('LOGIN_SUCCESS', user.id);
       res.redirect('/profile');
     } else {
       this.logger.register('LOGIN_FAIL', email);
-      res.render('login', {
-        title: 'Login',
+      res.render('auth', {
+        title: 'Sign In',
+        activeTab: 'login',
         errors: [{ msg: 'Invalid credentials' }],
         data: { email },
       });
@@ -48,8 +53,9 @@ export class AuthController {
   };
 
   public registerForm = (req: Request, res: Response) => {
-    res.render('register', {
+    res.render('auth', {
       title: 'Register',
+      activeTab: 'register',
       errors: [],
       data: {},
     });
@@ -58,8 +64,9 @@ export class AuthController {
   public register = async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.render('register', {
+      return res.render('auth', {
         title: 'Register',
+        activeTab: 'register',
         errors: errors.array(),
         data: req.body,
       });
@@ -69,8 +76,9 @@ export class AuthController {
     const existingUser = await this.users.getUserByEmail(email);
 
     if (existingUser) {
-      return res.render('register', {
+      return res.render('auth', {
         title: 'Register',
+        activeTab: 'register',
         errors: [{ msg: 'Email already in use' }],
         data: req.body,
       });
@@ -82,13 +90,19 @@ export class AuthController {
       password,
       age: parseInt(age, 10),
       city,
-      interests: interests ? (Array.isArray(interests) ? interests : [interests]) : [],
+      interests: interests
+        ? Array.isArray(interests)
+          ? interests
+          : [interests]
+        : [],
+      theme: req.cookies.theme || 'light',
     });
 
     req.session.user = {
       id: newUser.id,
       name: newUser.name,
       email: newUser.email,
+      theme: newUser.theme,
     };
     this.logger.register('REGISTER_SUCCESS', newUser.id);
     res.redirect('/profile');

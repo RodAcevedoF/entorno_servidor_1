@@ -3,6 +3,8 @@ import { Booking, CartItem, Session, User } from '../types';
 export interface BookingRepository {
   create(userId: string, items: CartItem[], total: number): Promise<Booking>;
   getBookingsByUser(userId: string): Promise<Booking[]>;
+  getBookingById(id: string): Promise<Booking | null>;
+  delete(id: string): Promise<void>;
 }
 
 export interface UserRepository {
@@ -18,8 +20,8 @@ export interface UserRepository {
 }
 
 export interface SessionsRepository {
-  getAllSessions(): Session[];
-  getSessionById(id: string): Session | undefined;
+  getAllSessions(): Promise<Session[]>;
+  getSessionById(id: string): Promise<Session | undefined>;
 }
 
 export interface Logger {

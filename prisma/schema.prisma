@@ -18,12 +18,13 @@ model User {
   age       Int
   city      String
   interests String    // JSON string array
+  theme     String    @default("light")
   createdAt DateTime  @default(now())
   bookings  Booking[]
 }
 
 model Session {
-  id          String     @id
+  id          String     @id @default(uuid())
   title       String
   description String
   date        String

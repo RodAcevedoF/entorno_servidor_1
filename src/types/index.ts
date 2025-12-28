@@ -8,6 +8,7 @@ export interface User {
   age: number;
   city: string;
   interests: string[];
+  theme: string;
   createdAt: string;
 }
 
@@ -45,4 +46,5 @@ export interface SessionUser {
   id: string;
   name: string;
   email: string;
+  theme: string;
 }

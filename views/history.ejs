@@ -1,33 +1,67 @@
-<h2>My Bookings</h2>
+<section class="history-container" style="max-width: 800px; margin: 0 auto;">
+  <div class="page-header">
+    <h1>My Bookings</h1>
+    <p class="tagline">Track your upcoming and past sessions</p>
+  </div>
 
-<% if (bookings.length === 0) { %>
-<div class="empty-cart">
-	<p>You have no bookings yet.</p>
-	<a href="/sessions" class="button">Explore Sessions</a>
-</div>
-<% } else { %>
-<div class="reservations-list">
-	<% bookings.forEach(function(booking) { %>
-	<div class="reservation-card">
-		<div class="reservation-header">
-			<span class="reservation-date"><%= formatDateTime(booking.createdAt) %></span>
-			<span class="reservation-total"><%= booking.total %>€</span>
-		</div>
-		<ul class="reservation-items">
-			<% booking.items.forEach(function(item) { %>
-			<li>
-				<strong><%= item.session.title %></strong>
-				<span><%= formatDate(item.session.date) %> - <%= formatTime(item.session.time) %></span>
-				<span>x<%= item.quantity %></span>
-			</li>
-			<% }); %>
-		</ul>
-	</div>
-	<% }); %>
-</div>
-<% } %>
+  <% if (bookings.length === 0) { %>
+  <div class="empty-cart card" style="text-align: center; padding: 60px;">
+    <div style="font-size: 4rem; color: var(--text-muted); margin-bottom: 24px;">
+      <i class="far fa-calendar-times"></i>
+    </div>
+    <p style="font-size: 1.2rem; margin-bottom: 32px;">You have no bookings yet.</p>
+    <a href="/sessions" class="btn btn-primary">Explore Sessions</a>
+  </div>
+  <% } else { %>
+  <div class="reservations-list" style="display: flex; flex-direction: column; gap: 24px;">
+    <% bookings.forEach(function(booking) { %>
+    <div class="reservation-card" style="position: relative;">
+      <div class="reservation-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 16px; margin-bottom: 16px;">
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Booked on</span>
+          <span class="reservation-date" style="font-weight: 600;"><%= formatDateTime(booking.createdAt) %></span>
+        </div>
+        <div class="reservation-total" style="font-size: 1.5rem; font-weight: 700; color: var(--primary);"><%= booking.total %>€</div>
+      </div>
+      
+      <ul class="reservation-items" style="list-style: none; padding: 0;">
+        <% booking.items.forEach(function(item) { %>
+        <li style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed var(--card-border);">
+          <div style="display: flex; flex-direction: column;">
+            <strong style="font-size: 1.1rem; color: var(--heading-color);"><%= item.session.title %></strong>
+            <span style="font-size: 0.9rem; color: var(--text-muted);">
+              <i class="far fa-calendar" style="margin-right: 6px;"></i><%= formatDate(item.session.date) %> 
+              <span style="margin: 0 8px;">•</span> 
+              <i class="far fa-clock" style="margin-right: 6px;"></i><%= formatTime(item.session.time) %>
+            </span>
+          </div>
+          <span style="background: var(--nav-link-bg); padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">x<%= item.quantity %></span>
+        </li>
+        <% }); %>
+      </ul>
 
-<div class="profile-actions">
-	<a href="/profile" class="button">Back to Profile</a>
-	<a href="/sessions" class="button">Explore Sessions</a>
-</div>
+      <% if (booking.canCancel) { %>
+      <div style="margin-top: 24px; text-align: right;">
+        <form action="/bookings/cancel/<%= booking.id %>" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to cancel this booking? This action cannot be undone.');">
+          <button type="submit" class="btn button-danger" style="font-size: 0.9rem; padding: 8px 20px;">
+            <i class="fas fa-times" style="margin-right: 6px;"></i> Cancel Booking
+          </button>
+        </form>
+      </div>
+      <% } %>
+    </div>
+    <% }); %>
+  </div>
+  <% } %>
+
+  <div class="profile-actions" style="margin-top: 48px; text-align: center; display: flex; justify-content: center; gap: 16px;">
+    <a href="/profile" class="btn btn-outline" style="border: 1px solid var(--card-border); color: var(--text-main);">
+      <i class="fas fa-arrow-left" style="margin-right: 8px;"></i> Back to Profile
+    </a>
+    <% if (bookings.length > 0) { %>
+    <a href="/sessions" class="btn btn-primary">
+      Explore Sessions <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+    </a>
+    <% } %>
+  </div>
+</section>

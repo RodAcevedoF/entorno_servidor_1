@@ -6,20 +6,18 @@ import { BookingRepository } from './interfaces';
 export class BookingModel implements BookingRepository {
   constructor() {}
 
-  private resolveSession(
-    item: {
-      session: Session | null;
-      sessionId: string;
-      unitPrice: number;
-      snapshot: string | null;
-    }
-  ): Session {
+  private resolveSession(item: {
+    session: Session | null;
+    sessionId: string;
+    unitPrice: number;
+    snapshot: string | null;
+  }): Session {
     if (item.session) return item.session;
     if (item.snapshot) {
       try {
         return JSON.parse(item.snapshot) as Session;
-      } catch {
-        // fall through to fallback
+      } catch (error) {
+        console.error('Error parsing session snapshot:', error);
       }
     }
     return {
@@ -97,5 +95,37 @@ export class BookingModel implements BookingRepository {
       total: b.total,
       createdAt: b.createdAt.toISOString(),
     }));
+  }
+
+  async getBookingById(id: string): Promise<Booking | null> {
+    const booking = await prisma.booking.findUnique({
+      where: { id },
+      include: {
+        items: {
+          include: {
+            session: true,
+          },
+        },
+      },
+    });
+
+    if (!booking) return null;
+
+    return {
+      id: booking.id,
+      userId: booking.userId,
+      items: booking.items.map((item) => ({
+        session: this.resolveSession(item),
+        quantity: item.quantity,
+      })),
+      total: booking.total,
+      createdAt: booking.createdAt.toISOString(),
+    };
+  }
+
+  async delete(id: string): Promise<void> {
+    await prisma.booking.delete({
+      where: { id },
+    });
   }
 }

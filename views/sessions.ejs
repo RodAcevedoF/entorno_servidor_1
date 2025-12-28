@@ -1,30 +1,56 @@
-<h2>Available Sessions</h2>
-
-<p class="intro-sessions">
-	Explore our group sessions for connecting with higher consciousness.
-</p>
-
-<div class="sessions-grid">
-	<% sessions.forEach(function(s) { %>
-	<div class="session-card">
-		<h3><%= s.title %></h3>
-		<p class="description"><%= s.description %></p>
-		<div class="details">
-			<span class="date"
-				>📅 <%= formatDate(s.date) %></span
-			>
-			<span class="time">🕐 <%= formatTime(s.time) %>h</span>
-			<span class="spots">👥 <%= s.places %> spots</span>
-		</div>
-		<div class="price"><%= s.price %>€</div>
-		<% if (user) { %>
-		<form action="/cart/add" method="POST">
-			<input type="hidden" name="sessionId" value="<%= s.id %>" />
-			<button type="submit" class="button">Add to Cart</button>
-		</form>
-		<% } else { %>
-		<p class="login-note"><a href="/login">Log in</a> to book</p>
-		<% } %>
-	</div>
-	<% }); %>
+<div class="hero-new">
+  <div class="hero-content">
+    <h1>Upcoming Sessions</h1>
+    <p class="tagline">Curated experiences to deepen your connection and expand your awareness.</p>
+  </div>
+  <div class="hero-image" style="background-image: url('/sessions.png');">
+    <!-- placeholder -->
+  </div>
 </div>
+
+<section class="sessions-container" style="padding: 40px 0;">
+  <div class="grid">
+    <% sessions.forEach(function(s) { %>
+    <div class="card session-card">
+      <div class="card-header">
+        <h3><%= s.title %></h3>
+        <div class="price-tag"><%= s.price %>€</div>
+      </div>
+      
+      <p class="description"><%= s.description %></p>
+      
+      <div class="divider" style="width: 40px; height: 3px; margin: 24px 0;"></div>
+
+      <div class="details-grid">
+        <div class="detail-item">
+          <i class="far fa-calendar-alt"></i>
+          <span><%= formatDate(s.date) %></span>
+        </div>
+        <div class="detail-item">
+          <i class="far fa-clock"></i>
+          <span><%= formatTime(s.time) %></span>
+        </div>
+        <div class="detail-item">
+          <i class="fas fa-users"></i>
+          <span><%= s.places %> spots</span>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <% if (user) { %>
+        <form action="/cart" method="POST" style="width: 100%;">
+          <input type="hidden" name="sessionId" value="<%= s.id %>" />
+          <button type="submit" class="btn btn-primary" style="width: 100%;">
+            Add to Cart <i class="fas fa-plus" style="margin-left: 8px; font-size: 0.8rem;"></i>
+          </button>
+        </form>
+        <% } else { %>
+        <a href="/login" class="btn btn-outline" style="width: 100%; display: block; text-align: center; border: 1px solid var(--border); color: var(--text-muted);">
+          Sign in to Book
+        </a>
+        <% } %>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+</section>

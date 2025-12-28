@@ -12,7 +12,14 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: ['node_modules', 'dist', 'data/*.log', '.env', 'eslint.config.ts'],
+    ignores: [
+      'node_modules',
+      'dist',
+      'data/*.log',
+      '.env',
+      'eslint.config.ts',
+      'generated/**',
+    ],
   },
   ...compat.extends(
     'eslint:recommended',

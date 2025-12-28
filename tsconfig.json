@@ -7,6 +7,7 @@
     "outDir": "./dist",
     "rootDir": ".",
     "strict": true,
+    "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
@@ -23,7 +24,9 @@
     "__tests__/**/*",
     "jest.config.ts",
     "__mocks__/**/*",
-    "prisma.config.ts"
+    "prisma.config.ts",
+    "prisma/seed.ts",
+    "priasma/**/*"
   ],
   "exclude": ["node_modules", "dist"]
 }

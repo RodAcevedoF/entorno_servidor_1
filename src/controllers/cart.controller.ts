@@ -1,8 +1,11 @@
 import { Request, Response } from 'express';
-import { SessionsRepository } from '../model/interfaces';
+import { SessionsRepository, BookingRepository } from '../model/interfaces';
 
 export class CartController {
-  constructor(private readonly sessions: SessionsRepository) {}
+  constructor(
+    private readonly sessions: SessionsRepository,
+    private readonly bookings: BookingRepository
+  ) {}
 
   public getCart = (req: Request, res: Response) => {
     const cart = req.session.cart || [];
@@ -17,9 +20,9 @@ export class CartController {
     });
   };
 
-  public addToCart = (req: Request, res: Response) => {
+  public addToCart = async (req: Request, res: Response) => {
     const { sessionId } = req.body;
-    const session = this.sessions.getSessionById(sessionId);
+    const session = await this.sessions.getSessionById(sessionId);
 
     if (session) {
       const cart = req.session.cart || [];
@@ -53,10 +56,14 @@ export class CartController {
       return res.redirect('/cart');
     }
 
-    // This is where the booking would be created
-    // For now, we just clear the cart
+    const total = cart.reduce(
+      (acc, item) => acc + item.session.price * item.quantity,
+      0
+    );
+
+    await this.bookings.create(req.session.user.id, cart, total);
 
     req.session.cart = [];
-    res.redirect('/history');
+    res.redirect('/bookings/history');
   };
 }
